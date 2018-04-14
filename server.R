@@ -8,7 +8,7 @@ server <- function(input, output, session) {
   names(data)[1]<-paste("year")
   data$bleaching = as.numeric(sub("%", "", data$bleaching))
   
-  
+  #loading data frames for mapping
   
   long <- unique(data$longitude)
   lat <- unique(data$latitude)
