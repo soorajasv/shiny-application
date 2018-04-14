@@ -1,0 +1,18 @@
+
+       body { 
+       font-family: "Calibri";
+       color : "white";
+       background-color: #0B4C5F;
+       }
+       
+       #coral{
+       color: white;
+       font-family: "Verdana";
+       font-size: 20px;
+       font-style: italic;
+       }
+       
+    	.white {
+	 font-family: "Verdana";
+	color: white;
+	}
