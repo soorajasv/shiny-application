@@ -1,6 +1,7 @@
 library(sqldf)
 library(ggplot2)
 library(plotly)
+library(leaflet)
 
 server <- function(input, output, session) {
   
@@ -25,13 +26,13 @@ server <- function(input, output, session) {
   # Markers with all of the labels
   
   # icons
-  icon.pop <- awesomeIcons(icon = "users",
-                           markerColor = ifelse(data$site == 'site01' | data$site == 'site02' , "blue", "red"),
-                           library = "fa",
-                           iconColor = "black")
   
-  
- 
+  icons <- awesomeIcons(
+    icon = 'close',
+    iconColor = 'black',
+    library = 'ion',
+    markerColor = 'red'
+  )
   
   
   output$mymap <- renderLeaflet({
@@ -41,7 +42,7 @@ server <- function(input, output, session) {
           # ) %>%
       
       addTiles() %>% 
-      addAwesomeMarkers(lng=markers$long, lat= markers$lat,label= markers$label, icon = icon.pop)
+      addAwesomeMarkers(lng=markers$long, lat= markers$lat,label= markers$label, icon = icons)
     })
   
   
