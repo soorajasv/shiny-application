@@ -4,6 +4,8 @@ library(plotly)
 
 server <- function(input, output, session) {
   
+  #observeEvent(input$whole, shinyjs::disable("region"))
+  
   data <- read.csv("E:/dataVisual/SE-R.csv",header=T)
   names(data)[1]<-paste("year")
   data$bleaching = as.numeric(sub("%", "", data$bleaching))
@@ -50,9 +52,7 @@ server <- function(input, output, session) {
   seafans = sqldf("select * from data where type='sea fans'")
   
   
-  output$coral <- renderText({ 
-    paste("Bleaching of ", input$region)
-  })
+ 
   
   output$phonePlot <- reactivePlot(function(){
     
@@ -83,7 +83,38 @@ server <- function(input, output, session) {
             finaldata = hardcorals
     }
     
+    if(input$whole == TRUE){
+      
+      
+      shinyjs::disable("region")
+      shinyjs::disable("graphselect")
+      
+      output$coral <- renderText({ 
+        paste("Coral Bleaching ")
+      })
+      
+      if(input$smoother == TRUE)
+      {
+        ggplot(data, aes(year, bleaching)) + geom_bar(aes(fill = type), position = "dodge", stat = "identity") +
+          facet_wrap(~site)+geom_smooth()
+      }
+      else
+      {
+        ggplot(data, aes(year, bleaching)) + geom_bar(aes(fill = type), position = "dodge", stat = "identity") +
+          facet_wrap(~site)
+      }
+      
+    }
     
+    else
+    {
+      shinyjs::enable("region")
+      shinyjs::enable("graphselect")
+      
+      output$coral <- renderText({ 
+        paste("Bleaching of ", input$region)
+      })
+      
     if(input$smoother == TRUE){
       
       if(input$graphselect == "plot"){
@@ -120,7 +151,7 @@ server <- function(input, output, session) {
       
     }
     
-    
+    }
     
     
     })
